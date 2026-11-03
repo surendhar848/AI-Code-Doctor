@@ -1,0 +1,38 @@
+spring:
+  application:
+    name: ai-code-doctor
+  datasource:
+    # Default: embedded file database (zero setup). Docker/production: MySQL via DB_URL.
+    url: ${DB_URL:jdbc:h2:file:./data/codedoctor}
+    username: ${DB_USER:sa}
+    password: ${DB_PASSWORD:}
+  jpa:
+    hibernate:
+      ddl-auto: update
+    open-in-view: false
+  thymeleaf:
+    cache: false
+
+server:
+  port: ${PORT:8080}
+  tomcat:
+    max-http-form-post-size: 1MB
+
+ollama:
+  base-url: ${OLLAMA_BASE_URL:http://localhost:11434}
+  model: ${OLLAMA_MODEL:qwen2.5-coder:7b}
+  timeout: ${OLLAMA_TIMEOUT:180s}
+  temperature: 0.1
+  num-ctx: ${OLLAMA_NUM_CTX:8192}
+
+codedoctor:
+  max-source-chars: 50000
+  max-files: 10
+  compile-timeout: 10s
+  max-fix-attempts: 3
+
+management:
+  endpoints:
+    web:
+      exposure:
+        include: health,info

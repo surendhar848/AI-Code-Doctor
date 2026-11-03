@@ -1,0 +1,16 @@
+{
+  "type": "object",
+  "properties": {
+    "summary": { "type": "string" },
+    "testFiles": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "properties": { "name": { "type": "string" }, "content": { "type": "string" } },
+        "required": ["name", "content"]
+      }
+    },
+    "scenarios": { "type": "array", "items": { "type": "string" } }
+  },
+  "required": ["summary", "testFiles", "scenarios"]
+}

@@ -1,0 +1,4 @@
+TASK: GENERATE JUNIT 5 TESTS.
+Write JUnit 5 (org.junit.jupiter.api) test classes for the submitted code. Name each class <ClassName>Test and put each in its own file in "testFiles".
+Cover: normal cases, negative cases, boundary values, null inputs, empty collections and exception behaviour (assertThrows). Use only public or package-visible members. Do not use mocking libraries.
+List each scenario in one line in "scenarios". Do not modify the code under test.

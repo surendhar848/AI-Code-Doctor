@@ -1,0 +1,4 @@
+TASK: DEBUG.
+Find why this code fails. Cover compilation errors (from the compiler output), likely runtime exceptions (NullPointerException, ArrayIndexOutOfBounds, ArithmeticException, ClassCast, concurrency), and logic errors such as wrong conditions or off-by-one calculations.
+For each issue give: the cause, the affected line, and a concrete fix.
+Put a short walkthrough of the root cause in "explanation". If you changed code, return the complete corrected files. In "testCases" list tests that would prevent each bug from coming back.

@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Review history · AI Code Doctor</title>
+  <link rel="stylesheet" th:href="@{/css/app.css}">
+</head>
+<body>
+<div class="shell">
+  <aside class="sidebar">
+    <div class="brand">AI Code Doctor</div>
+    <nav>
+      <a th:href="@{/}">New review</a>
+      <a class="active" th:href="@{/history}">Review history</a>
+    </nav>
+  </aside>
+  <main class="history">
+    <h1>Review history</h1>
+    <input id="search" type="search" placeholder="Search by title, summary or language">
+    <div id="list" class="list"><p class="empty">Loading…</p></div>
+  </main>
+</div>
+<div id="toast" class="toast" role="alert" hidden></div>
+<script th:src="@{/js/history.js}"></script>
+</body>
+</html>

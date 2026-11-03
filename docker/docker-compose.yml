@@ -1,0 +1,54 @@
+# Start:   docker compose -f docker/docker-compose.yml up --build
+# Model:   docker compose -f docker/docker-compose.yml exec ollama ollama pull qwen2.5-coder:7b
+services:
+  mysql:
+    image: mysql:8.4
+    environment:
+      MYSQL_DATABASE: codedoctor
+      MYSQL_USER: doctor
+      MYSQL_PASSWORD: ${DB_PASSWORD:-change-me}
+      MYSQL_ROOT_PASSWORD: ${DB_ROOT_PASSWORD:-change-me-too}
+    volumes:
+      - mysql-data:/var/lib/mysql
+    healthcheck:
+      test: ["CMD", "mysqladmin", "ping", "-h", "localhost", "-uroot", "-p${DB_ROOT_PASSWORD:-change-me-too}"]
+      interval: 10s
+      timeout: 5s
+      retries: 10
+
+  ollama:
+    image: ollama/ollama:latest
+    volumes:
+      - ollama-data:/root/.ollama
+    # For an NVIDIA GPU, add a `deploy.resources.reservations.devices` block (see Ollama docs).
+
+  app:
+    build:
+      context: ..
+      dockerfile: docker/Dockerfile
+    ports:
+      - "8080:8080"
+    environment:
+      DB_URL: "jdbc:mysql://mysql:3306/codedoctor?useSSL=false&allowPublicKeyRetrieval=true"
+      DB_USER: doctor
+      DB_PASSWORD: ${DB_PASSWORD:-change-me}
+      OLLAMA_BASE_URL: http://ollama:11434
+      OLLAMA_MODEL: ${OLLAMA_MODEL:-qwen2.5-coder:7b}
+    depends_on:
+      mysql:
+        condition: service_healthy
+      ollama:
+        condition: service_started
+    # Hardening: submitted code is compiled in this container, so keep it small and locked down.
+    read_only: true
+    tmpfs:
+      - /tmp:size=128m
+    cap_drop: [ALL]
+    security_opt:
+      - no-new-privileges:true
+    mem_limit: 1g
+    pids_limit: 256
+
+volumes:
+  mysql-data:
+  ollama-data:

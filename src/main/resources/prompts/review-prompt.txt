@@ -1,0 +1,3 @@
+TASK: CODE REVIEW.
+Review readability, naming, duplication, method size and complexity, exception handling, Java conventions and SOLID violations. Rank findings by impact; skip pure style nitpicks.
+Return corrected files only if a change clearly improves the code without changing its behaviour.

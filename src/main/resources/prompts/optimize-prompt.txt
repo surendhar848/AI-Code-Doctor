@@ -1,0 +1,3 @@
+TASK: OPTIMISE.
+Find real performance problems: needless nested loops, repeated work inside loops, string concatenation in loops, wrong collection types, unnecessary object creation, boxing.
+State the time and space complexity of the main methods in "optimizations". Return corrected files only when the optimisation keeps behaviour identical.

@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>AI Code Doctor</title>
+  <link rel="stylesheet" th:href="@{/css/app.css}">
+</head>
+<body>
+<div class="shell">
+  <aside class="sidebar">
+    <div class="brand">AI Code Doctor</div>
+    <nav>
+      <a class="active" th:href="@{/}">New review</a>
+      <a th:href="@{/history}">Review history</a>
+    </nav>
+    <div class="status">
+      <div><span id="dot-ollama" class="dot"></span><span id="txt-ollama">Checking AI…</span></div>
+      <div class="muted small" id="txt-model"></div>
+    </div>
+  </aside>
+
+  <main class="workspace">
+    <section class="pane editor-pane">
+      <div class="filebar">
+        <div id="tabs" class="tabs" role="tablist"></div>
+        <button id="addFile" class="ghost" title="Add a file">+ File</button>
+        <label class="ghost button-like">Upload .java<input id="upload" type="file" accept=".java" multiple hidden></label>
+      </div>
+      <div id="editor" class="editor"></div>
+
+      <div class="controls">
+        <label>Analysis
+          <select id="mode">
+            <option value="DEBUG">Debug and fix</option>
+            <option value="REVIEW">Code quality review</option>
+            <option value="SECURITY">Security review</option>
+            <option value="OPTIMIZE">Performance</option>
+            <option value="EXPLAIN">Explain for learning</option>
+          </select>
+        </label>
+        <input id="question" type="text" maxlength="2000" placeholder="Ask something specific (optional), e.g. why do I get a NullPointerException?">
+      </div>
+      <details class="stack">
+        <summary>Paste a compiler error or stack trace (optional)</summary>
+        <textarea id="errorText" rows="4" maxlength="10000" placeholder="Exception in thread &quot;main&quot; java.lang.NullPointerException …"></textarea>
+      </details>
+      <div class="actions">
+        <button id="analyse" class="primary">Analyse code</button>
+        <button id="compileOnly">Compile only</button>
+        <button id="genTests">Generate tests</button>
+        <span id="busy" class="muted" hidden></span>
+      </div>
+    </section>
+
+    <section class="pane results-pane">
+      <div class="result-tabs" role="tablist">
+        <button data-tab="overview" class="on">Overview</button>
+        <button data-tab="compiler">Compiler</button>
+        <button data-tab="findings">Findings</button>
+        <button data-tab="corrected">Corrected code</button>
+        <button data-tab="more">Optimisations</button>
+        <button data-tab="tests">Tests</button>
+        <button data-tab="chat">Ask</button>
+      </div>
+      <div id="tab-overview" class="panel on"><p class="empty">Paste or upload Java code, then choose <strong>Analyse code</strong>. The compiler runs first; the AI explains what it found.</p></div>
+      <div id="tab-compiler" class="panel"><p class="empty">No compiler result yet.</p></div>
+      <div id="tab-findings" class="panel"><p class="empty">No findings yet.</p></div>
+      <div id="tab-corrected" class="panel">
+        <p class="empty" id="correctedEmpty">No corrected code yet.</p>
+        <div id="correctedBox" hidden>
+          <div class="corr-bar">
+            <select id="corrFile"></select>
+            <span id="corrBadge"></span>
+            <span class="spacer"></span>
+            <button id="copyCorr">Copy</button>
+            <button id="dlCorr">Download .java</button>
+            <button id="applyCorr">Use in editor</button>
+          </div>
+          <div id="diff" class="diff"></div>
+        </div>
+      </div>
+      <div id="tab-more" class="panel"><p class="empty">No suggestions yet.</p></div>
+      <div id="tab-tests" class="panel"><p class="empty">Choose <strong>Generate tests</strong> to get JUnit 5 tests for this code.</p></div>
+      <div id="tab-chat" class="panel chat">
+        <div id="chatLog" class="chat-log"><p class="empty">Run an analysis, then ask follow-up questions about it here.</p></div>
+        <div class="chat-input">
+          <input id="chatText" type="text" maxlength="4000" placeholder="Ask about this code…">
+          <button id="chatSend" class="primary">Send</button>
+        </div>
+      </div>
+    </section>
+  </main>
+</div>
+<div id="toast" class="toast" role="alert" hidden></div>
+
+<!-- Monaco is loaded from a CDN; if it cannot load, a plain textarea editor is used instead. -->
+<script src="https://cdn.jsdelivr.net/npm/monaco-editor@0.52.2/min/vs/loader.js"></script>
+<script th:src="@{/js/app.js}"></script>
+</body>
+</html>

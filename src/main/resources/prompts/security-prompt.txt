@@ -1,0 +1,3 @@
+TASK: SECURITY REVIEW.
+Look for injection (SQL, command, path traversal), unsafe deserialization, hard-coded secrets, weak cryptography, unvalidated input, resource leaks and insecure randomness.
+Use issue type "SECURITY:<category>". Only report what the code actually shows. Return corrected files only for confirmed problems.
